@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>嵌入式3D可视化系统展示平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#36CFFB',
+                        dark: '#1D2939',
+                        light: '#F9FAFB',
+                        accent: '#722ED1'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .card-hover {
+                @apply transition-all duration-300 hover:shadow-xl;
+            }
+            .gradient-bg {
+                @apply bg-gradient-to-br from-primary/90 to-accent/90;
+            }
+            .iframe-container {
+                @apply relative overflow-hidden;
+                padding-top: 56.25%; /* 16:9 比例 */
+            }
+            .responsive-iframe {
+                @apply absolute top-0 left-0 w-full h-full border-0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-dark">
+    <!-- 导航栏 -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm transition-all duration-300">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-cube text-primary text-2xl"></i>
+                <h1 class="text-xl md:text-2xl font-bold text-primary">3D可视化系统平台</h1>
+            </div>
+            <button id="menuToggle" class="md:hidden text-gray-600 hover:text-primary transition-colors">
+                <i class="fa fa-bars text-xl"></i>
+            </button>
+            <nav id="mainNav" class="hidden md:flex items-center space-x-6">
+                <a href="#" class="text-gray-700 hover:text-primary transition-colors font-medium">首页</a>
+                <a href="#systems" class="text-gray-700 hover:text-primary transition-colors font-medium">系统列表</a>
+                <a href="#about" class="text-gray-700 hover:text-primary transition-colors font-medium">关于</a>
+                <button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-all shadow-md hover:shadow-lg">
+                    联系我们
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 移动端菜单 -->
+    <div id="mobileMenu" class="hidden fixed inset-0 z-40 bg-black bg-opacity-50">
+        <div class="bg-white h-full w-64 p-6 transform transition-transform">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-xl font-bold text-primary">菜单</h3>
+                <button id="closeMenu" class="text-gray-500 hover:text-primary">
+                    <i class="fa fa-times text-xl"></i>
+                </button>
+            </div>
+            <nav class="flex flex-col space-y-4">
+                <a href="#" class="text-gray-700 hover:text-primary transition-colors font-medium py-2 border-b border-gray-100">首页</a>
+                <a href="#systems" class="text-gray-700 hover:text-primary transition-colors font-medium py-2 border-b border-gray-100">系统列表</a>
+                <a href="#about" class="text-gray-700 hover:text-primary transition-colors font-medium py-2 border-b border-gray-100">关于</a>
+                <button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-all shadow-md hover:shadow-lg mt-4">
+                    联系我们
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 英雄区域 -->
+    <section class="gradient-bg text-white py-16 md:py-24">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-5xl font-bold mb-6 leading-tight">
+                嵌入式3D可视化系统
+            </h2>
+            <p class="text-lg md:text-xl max-w-2xl mx-auto mb-8 text-white/90">
+                直接在本页面体验各类3D可视化系统，无需跳转，流畅浏览
+            </p>
+            <a href="#systems" class="inline-flex items-center bg-white text-primary font-medium px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all">
+                开始浏览
+                <i class="fa fa-arrow-down ml-2"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- 系统展示区域 - 流式布局 -->
+    <section id="systems" class="py-16 bg-light">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold mb-4">3D可视化系统展示</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    以下系统已直接嵌入本页面，可直接操作使用，向下滚动浏览更多
+                </p>
+            </div>
+            
+            <!-- 系统7 -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover mb-12">
+                <div class="p-6 md:p-8 border-b border-gray-100">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold">3D定位可视化系统</h3>
+                            <p class="text-gray-500">系统7</p>
+                        </div>
+                        <div class="flex items-center space-x-2 mt-4 md:mt-0">
+                            <span class="bg-primary/10 text-primary text-sm font-medium px-3 py-1 rounded-full">热门</span>
+                            <button class="open-fullscreen bg-gray-100 hover:bg-gray-200 text-gray-700 p-2 rounded-lg transition-colors" data-system="system7">
+                                <i class="fa fa-expand mr-1"></i> 全屏查看
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">
+                        高精度3D定位数据可视化系统，实时展示物体空间位置与运动轨迹。支持旋转、缩放和平移操作，全方位查看定位数据。
+                    </p>
+                </div>
+                <div class="iframe-container">
+                    <iframe id="system7" class="responsive-iframe" src="http://47.94.171.205:11120/" 
+                        title="3D定位可视化系统" allowfullscreen></iframe>
+                </div>
+            </div>
+            
+            <!-- 系统8 -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover mb-12">
+                <div class="p-6 md:p-8 border-b border-gray-100">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold">3DVRP分屏对比</h3>
+                            <p class="text-gray-500">系统8</p>
+                        </div>
+                        <button class="open-fullscreen bg-gray-100 hover:bg-gray-200 text-gray-700 p-2 rounded-lg transition-colors mt-4 md:mt-0" data-system="system8">
+                            <i class="fa fa-expand mr-1"></i> 全屏查看
+                        </button>
+                    </div>
+                    <p class="text-gray-600">
+                        车辆路径问题(VRP)的3D分屏对比系统，直观展示不同算法的优化效果。可同时查看多种方案的路径规划结果。
+                    </p>
+                </div>
+                <div class="iframe-container">
+                    <iframe id="system8" class="responsive-iframe" src="http://47.94.171.205:11121/" 
+                        title="3DVRP分屏对比" allowfullscreen></iframe>
+                </div>
+            </div>
+            
+            <!-- 系统9 -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover mb-12">
+                <div class="p-6 md:p-8 border-b border-gray-100">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold">多车辆问题对比3D视觉版</h3>
+                            <p class="text-gray-500">系统9</p>
+                        </div>
+                        <button class="open-fullscreen bg-gray-100 hover:bg-gray-200 text-gray-700 p-2 rounded-lg transition-colors mt-4 md:mt-0" data-system="system9">
+                            <i class="fa fa-expand mr-1"></i> 全屏查看
+                        </button>
+                    </div>
+                    <p class="text-gray-600">
+                        多车辆协同路径规划的3D视觉化对比系统，支持多种场景模拟。可调整参数并实时查看多车辆协同效果。
+                    </p>
+                </div>
+                <div class="iframe-container">
+                    <iframe id="system9" class="responsive-iframe" src="http://47.94.171.205:11122/" 
+                        title="多车辆问题对比3D视觉版" allowfullscreen></iframe>
+                </div>
+            </div>
+            
+            <!-- 系统10 -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover mb-12">
+                <div class="p-6 md:p-8 border-b border-gray-100">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold">DeFi AMM 3D 可视化工具</h3>
+                            <p class="text-gray-500">系统10</p>
+                        </div>
+                        <div class="flex items-center space-x-2 mt-4 md:mt-0">
+                            <span class="bg-accent/10 text-accent text-sm font-medium px-3 py-1 rounded-full">新上线</span>
+                            <button class="open-fullscreen bg-gray-100 hover:bg-gray-200 text-gray-700 p-2 rounded-lg transition-colors" data-system="system10">
+                                <i class="fa fa-expand mr-1"></i> 全屏查看
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">
+                        去中心化金融自动做市商(AMM)的3D数据可视化分析工具。直观展示流动性池、交易路径和收益情况。
+                    </p>
+                </div>
+                <div class="iframe-container">
+                    <iframe id="system10" class="responsive-iframe" src="http://47.94.171.205:11124/" 
+                        title="DeFi AMM 3D 可视化工具" allowfullscreen></iframe>
+                </div>
+            </div>
+            
+            <!-- 系统11 -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                <div class="p-6 md:p-8 border-b border-gray-100">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold">交互式3D激光雷达模拟器</h3>
+                            <p class="text-gray-500">系统11</p>
+                        </div>
+                        <button class="open-fullscreen bg-gray-100 hover:bg-gray-200 text-gray-700 p-2 rounded-lg transition-colors mt-4 md:mt-0" data-system="system11">
+                            <i class="fa fa-expand mr-1"></i> 全屏查看
+                        </button>
+                    </div>
+                    <p class="text-gray-600">
+                        高精度激光雷达数据采集与环境建模的交互式3D模拟系统。可调整激光雷达参数并观察不同环境下的扫描效果。
+                    </p>
+                </div>
+                <div class="iframe-container">
+                    <iframe id="system11" class="responsive-iframe" src="http://47.94.171.205:11125/" 
+                        title="交互式3D激光雷达模拟器" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 使用提示 -->
+    <section class="py-12 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-xl shadow-md">
+                <h3 class="text-xl font-bold mb-4 flex items-center">
+                    <i class="fa fa-info-circle text-primary mr-2"></i> 使用提示
+                </h3>
+                <ul class="space-y-3 text-gray-600">
+                    <li class="flex items-start">
+                        <i class="fa fa-check-circle text-green-500 mt-1 mr-3"></i>
+                        <span>各系统支持鼠标拖拽旋转视角，滚轮缩放，按住Shift键平移</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fa fa-check-circle text-green-500 mt-1 mr-3"></i>
+                        <span>移动设备上可通过双指缩放，单指拖拽旋转视角</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fa fa-check-circle text-green-500 mt-1 mr-3"></i>
+                        <span>点击"全屏查看"按钮可获得更好的操作体验</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fa fa-check-circle text-green-500 mt-1 mr-3"></i>
+                        <span>部分系统可能需要加载时间，请耐心等待</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于部分 -->
+    <section id="about" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-2xl md:text-3xl font-bold mb-6">关于嵌入式3D可视化系统</h2>
+                <p class="text-gray-600 mb-6">
+                    本平台将多个3D可视化系统直接嵌入展示，让您无需跳转即可体验各类先进的3D可视化技术。
+                    这些系统采用WebGL技术开发，支持跨平台操作，在电脑和移动设备上都能提供出色的交互体验。
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#" class="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg transition-all shadow-md hover:shadow-lg">
+                        了解更多
+                    </a>
+                    <a href="#" class="bg-white border border-gray-300 hover:border-primary text-gray-700 hover:text-primary px-6 py-3 rounded-lg transition-all">
+                        联系技术支持
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fa fa-cube text-secondary text-2xl"></i>
+                        <h3 class="text-xl font-bold">3D可视化系统平台</h3>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        专业的3D数据可视化解决方案提供商，助力企业数字化转型
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fa fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fa fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fa fa-linkedin text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">快速链接</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
+                        <li><a href="#systems" class="text-gray-400 hover:text-white transition-colors">系统列表</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">关于我们</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">技术文档</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">联系我们</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fa fa-envelope text-secondary mt-1 mr-3"></i>
+                            <span class="text-gray-400">support@3dvis.com</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-phone text-secondary mt-1 mr-3"></i>
+                            <span class="text-gray-400">+86 123 4567 8910</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+                <p>© 2023 3D可视化系统平台. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 全屏查看模态框 -->
+    <div id="fullscreenModal" class="fixed inset-0 z-50 bg-black hidden">
+        <div class="flex flex-col h-full">
+            <div class="flex justify-end p-4">
+                <button id="closeFullscreen" class="text-white bg-black bg-opacity-50 hover:bg-opacity-70 p-2 rounded-full transition-colors">
+                    <i class="fa fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="flex-1">
+                <iframe id="fullscreenIframe" class="w-full h-full border-0" src="" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('py-2');
+                header.classList.remove('py-4');
+                header.classList.add('shadow');
+            } else {
+                header.classList.add('py-4');
+                header.classList.remove('py-2');
+                header.classList.remove('shadow');
+            }
+        });
+
+        // 移动端菜单控制
+        const menuToggle = document.getElementById('menuToggle');
+        const closeMenu = document.getElementById('closeMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+
+        menuToggle.addEventListener('click', function() {
+            mobileMenu.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+
+        function closeMobileMenu() {
+            mobileMenu.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        closeMenu.addEventListener('click', closeMobileMenu);
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 全屏查看功能
+        const fullscreenModal = document.getElementById('fullscreenModal');
+        const fullscreenIframe = document.getElementById('fullscreenIframe');
+        const closeFullscreen = document.getElementById('closeFullscreen');
+        const fullscreenButtons = document.querySelectorAll('.open-fullscreen');
+
+        fullscreenButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const systemId = this.getAttribute('data-system');
+                const systemIframe = document.getElementById(systemId);
+                fullscreenIframe.src = systemIframe.src;
+                fullscreenModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        closeFullscreen.addEventListener('click', function() {
+            fullscreenModal.classList.add('hidden');
+            document.body.style.overflow = '';
+        });
+
+        // 点击模态框背景关闭全屏
+        fullscreenModal.addEventListener('click', function(e) {
+            if (e.target === fullscreenModal) {
+                fullscreenModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // 监听iframe加载状态，显示加载提示
+        const iframes = document.querySelectorAll('iframe');
+        iframes.forEach(iframe => {
+            // 可以在这里添加加载指示器逻辑
+            iframe.addEventListener('load', function() {
+                console.log(`系统 ${this.id} 加载完成`);
+            });
+        });
+    </script>
+</body>
+</html>
